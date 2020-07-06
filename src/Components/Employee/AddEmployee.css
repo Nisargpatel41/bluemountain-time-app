@@ -1,0 +1,10 @@
+.empFormContainer {
+  width: 30%;
+}
+
+/* Portrait */
+@media only screen and (max-device-width: 480px) {
+  .empFormContainer {
+    width: 75%;
+  }
+}

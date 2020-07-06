@@ -22,33 +22,49 @@ class TimePage extends Component {
 
           <h6 className="break">Break</h6>
           <Hr />
-          <form className="formStyles">
-            <div className="form-group pt-4">
-              <label htmlFor="startingTime">From</label>
+          <div className="row">
+            <div className="formContainer text-center col-sm-12 col-lg-6">
+              <form className="formStyles">
+                <div className="form-group pt-4">
+                  <label htmlFor="startingTime">From</label>
 
-              <input
-                type="button"
-                className="form-control"
-                value="Current Time"
-                // onClick={this.currentTime}
-              />
-            </div>
-            <div className="form-group pt-3">
-              <label htmlFor="endingTime">To</label>
+                  <input
+                    type="button"
+                    className="form-control"
+                    value="Current Time"
+                    // onClick={this.currentTime}
+                  />
+                </div>
+                <div className="form-group pt-3">
+                  <label htmlFor="endingTime">To</label>
 
-              <input
-                type="time"
-                className="form-control"
-                placeholder="Break Ending Time"
-              />
+                  <input
+                    type="time"
+                    className="form-control"
+                    placeholder="Break Ending Time"
+                  />
+                </div>
+                <div className="form-group pt-3 loginButtonDiv">
+                  <button type="submit" className="btn btn-success">
+                    Start Break
+                  </button>
+                  <button className="btn btn-danger ml-4">End Break</button>
+                </div>
+              </form>
             </div>
-            <div className="form-group pt-3 loginButtonDiv">
-              <button type="submit" className="btn btn-success">
-                Start Break
-              </button>
-              <button className="btn btn-danger ml-4">End Break</button>
+
+            <div className="TimingDetail col-sm-12 col-lg-6">
+              <div>
+                <h4>CountDown</h4>
+                <p>2:30:43</p>
+              </div>
+
+              <div>
+                <h4>Remaining Time</h4>
+                <p>2:30:43</p>
+              </div>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     );

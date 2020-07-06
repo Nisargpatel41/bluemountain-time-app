@@ -5,6 +5,7 @@ import LoginPage from "./Components/LoginPage/LoginPage";
 import AdminLogin from "./Components/Admin/AdminLogin";
 import Admin from "./Components/Admin/Admin";
 import TimePage from "./Components/TimePage/TimePage";
+import AddEmployee from "./Components/Employee/AddEmployee";
 import Forgot from "./Components/LoginPage/ForgotPassword";
 
 import axios from "axios";
@@ -25,6 +26,7 @@ class App extends Component {
             <Route path="/time-page" component={TimePage} />
             <Route path="/admin-login" component={AdminLogin} />
             <Route path="/admin" component={Admin} />
+            <Route path="/add-employee" component={AddEmployee} />
             <Route path="/forgot" component={Forgot} />
             <Route path="/" exact component={LoginPage} />
           </Switch>

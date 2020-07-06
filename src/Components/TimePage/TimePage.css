@@ -35,10 +35,21 @@
   font-size: 1.2em;
 }
 
+.TimingDetail {
+  margin-top: 2em;
+}
+
 @media only screen and (min-width: 1100px) {
   .enterBtn:hover {
     color: #2ba142;
     border: 1px solid #2ba142;
     background-color: #fff;
+  }
+}
+
+/* Portrait */
+@media only screen and (max-device-width: 480px) {
+  .TimingDetail {
+    margin-top: 0.5em;
   }
 }

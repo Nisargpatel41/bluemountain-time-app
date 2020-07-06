@@ -38,3 +38,14 @@
     margin-top: 3em;
   }
 }
+
+.dateInput {
+  width: 25%;
+}
+
+/* Portrait */
+@media only screen and (max-device-width: 480px) {
+  .dateInput {
+    width: 75%;
+  }
+}
