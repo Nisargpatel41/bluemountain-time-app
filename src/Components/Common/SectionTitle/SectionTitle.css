@@ -1,0 +1,25 @@
+.sectionTitleMain {
+  padding: 8% 3% 0% 3%;
+}
+
+.sectionTitleDiv {
+  padding: 0 0 0.4em 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.sectionTitle {
+  color: #696969;
+  font-size: 1.2em;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+@media only screen and (min-width: 992px) {
+  .sectionTitleMain {
+    padding-top: 5%;
+    padding-bottom: 2.5%;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+}

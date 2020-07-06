@@ -1,0 +1,44 @@
+.timePageMain {
+  padding: 2em 5%;
+}
+.todayDate {
+  float: right;
+  border-bottom: 1px solid black;
+  font-weight: 400;
+}
+
+.helloUser {
+  text-align: center;
+  margin-top: 4em;
+}
+
+.fillInfoDiv {
+  text-align: center;
+  padding-top: 2em;
+}
+
+.enterBtn {
+  background-color: #2ba142;
+  border: none;
+  padding: 0.5em 1.7em;
+  text-transform: capitalize;
+  letter-spacing: 1.3px;
+  font-size: 1.1em;
+  color: #fff;
+  outline: 0;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.break {
+  margin-top: 3em;
+  font-size: 1.2em;
+}
+
+@media only screen and (min-width: 1100px) {
+  .enterBtn:hover {
+    color: #2ba142;
+    border: 1px solid #2ba142;
+    background-color: #fff;
+  }
+}

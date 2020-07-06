@@ -1,0 +1,26 @@
+.logoDiv {
+  position: absolute;
+  top: 5%;
+  height: auto;
+  width: 100%;
+  padding: 0 10%;
+  /* border: 1px solid black; */
+}
+
+.logoDiv img {
+  height: 100%;
+  width: 100%;
+}
+
+@media only screen and (min-width: 1100px) {
+  .logoDiv {
+    height: auto;
+    width: 25em;
+    top: 0;
+    padding: 0;
+    padding-right: 5%;
+    padding-top: 1%;
+    margin-left: 30%;
+    /* border: 1px solid black; */
+  }
+}
