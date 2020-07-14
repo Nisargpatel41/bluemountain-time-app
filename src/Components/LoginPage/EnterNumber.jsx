@@ -8,9 +8,8 @@ class EnterNumber extends Component {
     e.preventDefault();
     const userName = e.target.elements.userName.value;
     const mobileNumber = e.target.elements.mobileNumber.value;
-
     axios
-      .post("https://bluemountain-api.herokuapp.com/api/forgot", {
+      .post("https://bluemountain-api.herokuapp.com", {
         userName,
         mobileNumber,
       })
