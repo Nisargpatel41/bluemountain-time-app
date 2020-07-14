@@ -186,8 +186,8 @@ class TimePage extends Component {
     // console.log(endTime, d, endTimeValue);
     // const breakEndTime1 = new Date(`${d} ${endTimeValue}`).getTime();
 
-    const breakEndTime = parseInt(localStorage.getItem("breakEndTime"));
     this.timing = setInterval(() => {
+      const breakEndTime = parseInt(localStorage.getItem("breakEndTime"));
       const currentTime = new Date().getTime();
 
       let totDistance = breakEndTime - currentTime;
@@ -213,6 +213,9 @@ class TimePage extends Component {
   endBreak = (e) => {
     localStorage.setItem("isBreakStartBtn", true);
     clearInterval(this.timing);
+    const currentTime = new Date().getTime();
+    localStorage.setItem("breakEndTime", currentTime);
+    this.setState({ printHours: 0, printMinutes: 0, printSeconds: 0 });
 
     const d = new Date().toLocaleDateString();
 
