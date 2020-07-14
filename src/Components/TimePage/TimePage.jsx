@@ -18,6 +18,7 @@ class TimePage extends Component {
     isStartBreak: true,
     printHours: 0,
     printMinutes: 0,
+    printSeconds: 0,
   };
 
   // schedule.scheduleJob('0 0 * * *', () => {
@@ -152,6 +153,7 @@ class TimePage extends Component {
 
     const startTime = `${startHours} : ${startMinutes} ${startTimeAP}`;
 
+    const endTimeValue = e.target.elements.toTime.value;
     const endTimeTemp = e.target.elements.toTime.value.split(":");
     // e.target.elements.toTime.value = "";
     const endHours = parseInt(endTimeTemp[0]);
@@ -160,7 +162,9 @@ class TimePage extends Component {
 
     const endTime = To12(endHours, endMinutes);
 
-    // this.countDown(endTime);
+    const breakEndTime = new Date(`${d} ${endTimeValue}`).getTime();
+    localStorage.setItem("breakEndTime", breakEndTime);
+    this.timeCountDown();
 
     axios
       .put("https://bluemountain-api.herokuapp.com/api/time/start-break", {
@@ -177,99 +181,38 @@ class TimePage extends Component {
       });
   };
 
-  countDown = (endTime) => {
-    // let timeout;
-    const endTimeTemp = endTime.split(":");
+  timing;
+  timeCountDown = () => {
+    // console.log(endTime, d, endTimeValue);
+    // const breakEndTime1 = new Date(`${d} ${endTimeValue}`).getTime();
 
-    const endHours = parseInt(endTimeTemp[0]);
-    let copyEndHours = endHours;
+    const breakEndTime = parseInt(localStorage.getItem("breakEndTime"));
+    this.timing = setInterval(() => {
+      const currentTime = new Date().getTime();
 
-    const endMinutes = parseInt(endTimeTemp[1]);
-    let copyEndMinutes = endMinutes;
+      let totDistance = breakEndTime - currentTime;
 
-    let printHours;
-    let printMinutes;
-
-    const currentTimeTemp = new Date().toLocaleTimeString().split(":");
-
-    let currentHours = parseInt(currentTimeTemp[0]);
-
-    let currentMinutes = parseInt(currentTimeTemp[1]);
-
-    let initialHour = copyEndHours - currentHours;
-    let inititalMin = copyEndMinutes - currentMinutes;
-
-    console.log("I - Hours", initialHour);
-    console.log("i - min", inititalMin);
-
-    // printHours = initialHour - 1;
-    // printMinutes = inititalMin - 1;
-
-    console.log("C - Hours", currentHours, "Copy - Hours", copyEndHours);
-    console.log("C - min", currentMinutes, "Copy - Min", copyEndMinutes);
-
-    this.setState({ printHours: initialHour, printMinutes: inititalMin });
-    // let timeout = setInterval hatu me warning na lidhe remove karyu che
-    setInterval(() => {
-      console.log("ih:", initialHour);
-
-      if (inititalMin === 0) {
-        initialHour -= 1;
-        printHours = initialHour <= 0 ? 0 : initialHour;
-
-        console.log("First If", printHours);
-      } else {
-        printHours = initialHour;
+      if (totDistance <= 0) {
+        clearInterval(this.timing);
+        // alert("Your Break Time is Finished....");
+        return;
       }
 
-      if (initialHour >= 0) {
-        console.log("hey outer if");
+      let printHours = Math.floor(
+        (totDistance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+      let printMinutes = Math.floor(
+        (totDistance % (1000 * 60 * 60)) / (1000 * 60)
+      );
+      let printSeconds = Math.floor((totDistance % (1000 * 60)) / 1000);
 
-        console.log("Before", inititalMin);
-
-        inititalMin -= 1;
-
-        console.log("After", inititalMin);
-
-        if (inititalMin < 0) {
-          console.log("hey inner if");
-          inititalMin = 59;
-          printMinutes = 59;
-
-          // this.setState({ printHours, printMinutes });
-        } else {
-          printMinutes = inititalMin;
-          // this.setState({ printHours, printMinutes });
-          console.log("hey inner else");
-        }
-
-        this.setState({ printHours, printMinutes });
-      } else {
-        console.log("In Outer Else!");
-        this.setState({ printHours: 0, printMinutes: 0 });
-      }
-
-      // printHours = copyEndHours - currentHours;
-
-      // printMinutes = copyEndMinutes - currentMinutes;
-
-      // console.log(printHours, printMinutes);
-
-      // if (printMinutes === 0 && printHours === 0) {
-      //   console.log("We are clearing timeout!");
-      //   clearInterval(timeout);
-      // }
-
-      // this.setState({ printHours, printMinutes });
-    }, 60000);
-
-    // console.log("Hello World!");
-
-    return;
+      this.setState({ printHours, printMinutes, printSeconds });
+    });
   };
 
   endBreak = (e) => {
     localStorage.setItem("isBreakStartBtn", true);
+    clearInterval(this.timing);
 
     const d = new Date().toLocaleDateString();
 
@@ -297,14 +240,21 @@ class TimePage extends Component {
       .catch((err) => {
         console.log(err);
       });
+
+    this.setState({ isStartBreak: true });
   };
 
   render() {
     // schedule.scheduleJob("11 58 * * *", () => {
     //   this.exitTime();
     // });
-    const isEnterBtn = localStorage.getItem("isEnterBtn");
+
     const isBreakStartBtn = localStorage.getItem("isBreakStartBtn");
+    if (isBreakStartBtn === "false") {
+      this.timeCountDown();
+    }
+
+    const isEnterBtn = localStorage.getItem("isEnterBtn");
 
     const isLoggedIn = localStorage.getItem("isLoggedIn");
 
@@ -414,7 +364,7 @@ class TimePage extends Component {
                 </form>
               </div>
 
-              {/* <div className="TimingDetail col-sm-12 col-lg-6">
+              <div className="TimingDetail col-sm-12 col-lg-6">
                 <div>
                   <h4>Count Down</h4>
                   <div id="clockdiv">
@@ -427,13 +377,13 @@ class TimePage extends Component {
                       <div className="smalltext">Minutes</div>
                     </div>
                     <div>
-                      <span className="seconds">43</span>
+                      <span className="seconds">{this.state.printSeconds}</span>
                       <div className="smalltext">Seconds</div>
                     </div>
                   </div>
                 </div>
 
-                <div>
+                {/* <div>
                   <h4 className="remainTime">Remaining Time</h4>
                   <div id="clockdiv">
                     <div>
@@ -449,8 +399,8 @@ class TimePage extends Component {
                       <div className="smalltext">Seconds</div>
                     </div>
                   </div>
-                </div>
-              </div> */}
+                </div> */}
+              </div>
             </div>
           </React.Fragment>
         );

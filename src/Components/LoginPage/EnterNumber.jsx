@@ -9,7 +9,7 @@ class EnterNumber extends Component {
     const userName = e.target.elements.userName.value;
     const mobileNumber = e.target.elements.mobileNumber.value;
     axios
-      .post("https://bluemountain-api.herokuapp.com", {
+      .post("https://bluemountain-api.herokuapp.com/api/forgot", {
         userName,
         mobileNumber,
       })
