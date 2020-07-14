@@ -39,11 +39,52 @@
   margin-top: 2em;
 }
 
+#clockdiv {
+  font-family: sans-serif;
+  color: #fff;
+  color: #de4848;
+  display: inline-block;
+  font-weight: 100;
+  padding-top: 0.6em;
+  text-align: center;
+  font-size: 1em;
+}
+
+#clockdiv > div {
+  padding: 10px;
+  border-radius: 3px;
+  /* background: #00bf96; */
+  background: #f7f7f7;
+  background: #fff;
+  display: inline-block;
+  margin-left: 5px;
+}
+
+#clockdiv div > span {
+  padding: 15px;
+  border-radius: 3px;
+  /* background: #00816a; */
+  background: #f7f7f7;
+  display: inline-block;
+}
+
+.smalltext {
+  padding-top: 5px;
+  font-size: 16px;
+}
+
+.remainTime {
+  margin-top: 1em;
+}
+
 @media only screen and (min-width: 1100px) {
   .enterBtn:hover {
     color: #2ba142;
     border: 1px solid #2ba142;
     background-color: #fff;
+  }
+  .formContainer {
+    margin-top: 3em;
   }
 }
 

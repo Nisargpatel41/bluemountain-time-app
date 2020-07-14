@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
-import { toast } from "react-toastify";
 
 class AdminLogin extends Component {
   state = { errorMessage: false };
@@ -10,6 +9,20 @@ class AdminLogin extends Component {
     e.preventDefault();
     const userName = e.target.elements.adminName.value;
     const password = e.target.elements.adminPassword.value;
+    axios
+      .post("https://bluemountain-api.herokuapp.com/api/admin", {
+        userName: userName,
+        password: password,
+      })
+      .then((res) => {
+        localStorage.setItem("isAdmin", true);
+        this.props.history.push("/admin");
+      })
+      .catch((error) => {
+        if (!error.response.data.resBoolean) {
+          this.setState({ errorMessage: true });
+        }
+      });
 
     // console.log(result);
   };

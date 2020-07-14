@@ -1,23 +1,25 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-class ForgotPassword extends Component {
-  state = { errorMessage: false };
 
+class EnterNumber extends Component {
+  state = { errorMessage: false };
   submitForm = async (e) => {
     e.preventDefault();
-    const otpNumber = e.target.elements.otpNumber.value;
-    const newPassword = e.target.elements.newPassword.value;
+    const userName = e.target.elements.userName.value;
+    const mobileNumber = e.target.elements.mobileNumber.value;
 
     axios
-      .put("https://bluemountain-api.herokuapp.com/api/forgot", {
-        empOtp: otpNumber,
-        newPassword: newPassword,
-        empName: sessionStorage.getItem("empName"),
+      .post("https://bluemountain-api.herokuapp.com/api/forgot", {
+        userName,
+        mobileNumber,
       })
       .then((res) => {
-        toast.success("Password Changed!");
-        this.props.history.push("/");
+        console.log(res.data);
+
+        toast("OTP Sent on Your Mobile!");
+        sessionStorage.setItem("empName", userName);
+        this.props.history.push("/forgot");
       })
       .catch((error) => {
         if (!error.response.data.resBoolean) {
@@ -43,30 +45,35 @@ class ForgotPassword extends Component {
               onSubmit={this.submitForm}
             >
               {this.state.errorMessage && (
-                <span className="errorMessage">OTP is Incorrect.</span>
+                <span className="errorMessage">
+                  User Name &amp; Mobile Number doesn't match.
+                </span>
               )}
               <div className="form-group pt-2">
-                <label htmlFor="LoginForm">OTP</label>
+                <label htmlFor="LoginForm">User Name</label>
                 <input
                   type="text"
                   className="form-control"
-                  id="otpNumber"
-                  placeholder="Enter OTP"
+                  id="userName"
+                  placeholder="Enter Your User Name"
                   autoFocus
                 />
               </div>
+
               <div className="form-group pt-2">
-                <label htmlFor="LoginForm">Password</label>
+                <label htmlFor="LoginForm">Mobile Number</label>
                 <input
-                  type="password"
+                  type="text"
                   className="form-control"
-                  id="newPassword"
-                  placeholder="Enter New Password"
+                  id="mobileNumber"
+                  placeholder="Enter Mobile Number"
+                  inputMode="tel"
                 />
               </div>
+
               <div className="form-group pt-3 loginButtonDiv">
                 <button type="submit" className="btn btn-primary">
-                  Update Password
+                  Send OTP
                 </button>
                 <button
                   type="button"
@@ -86,4 +93,4 @@ class ForgotPassword extends Component {
   }
 }
 
-export default ForgotPassword;
+export default EnterNumber;

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
-import { toast } from "react-toastify";
 import "./LoginPage.css";
 
 class LoginPage extends Component {
@@ -12,7 +11,33 @@ class LoginPage extends Component {
     const userName = e.target.elements.adminName.value;
     const password = e.target.elements.adminPassword.value;
 
-    // console.log(result);
+    axios
+      .post("https://bluemountain-api.herokuapp.com/api/employee", {
+        userName: userName,
+        password: password,
+      })
+      .then((res) => {
+        sessionStorage.setItem("empName", userName);
+        localStorage.setItem("isEnterBtn", true);
+        localStorage.setItem("isBreakStartBtn", true);
+
+        const remainingMilliseconds = 60 * 60 * 2000;
+        // const remainingMilliseconds = 60 * 1000;
+
+        const expiryDate = new Date(
+          new Date().getTime() + remainingMilliseconds
+        );
+        localStorage.setItem("expiryDate", expiryDate.toISOString());
+        // this.props.loggedIn();
+
+        this.props.loginHandler();
+        this.props.history.push("/time-page");
+      })
+      .catch((error) => {
+        if (!error.response.data.resBoolean) {
+          this.setState({ errorMessage: true });
+        }
+      });
   };
 
   forgotPassword = () => {
@@ -20,8 +45,7 @@ class LoginPage extends Component {
       .get("")
       .then((res) => {
         if (res.data) {
-          toast("OTP Sent on Your Mobile!");
-          this.props.history.push("/forgot");
+          this.props.history.push("/enter-mobile-number");
         }
       })
       .catch((err) => {
