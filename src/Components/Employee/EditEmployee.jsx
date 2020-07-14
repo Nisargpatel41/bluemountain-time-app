@@ -44,10 +44,12 @@ class EditEmployee extends Component {
     const eid = { eid: this.empId };
     const empObj = { ...this.state.employee, ...eid };
 
-    axios.put("http://localhost:5000/api/employee", empObj).then((result) => {
-      this.setState({ isSending: false });
-      toast.success("Employee Updated!");
-    });
+    axios
+      .put("https://bluemountain-api.herokuapp.com/api/employee", empObj)
+      .then((result) => {
+        this.setState({ isSending: false });
+        toast.success("Employee Updated!");
+      });
   };
 
   render() {
