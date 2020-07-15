@@ -63,6 +63,34 @@ class ViewEmployees extends Component {
                   <th scope="row">Mobile No: </th>
                   <td>{emp.mobileNo}</td>
                 </tr>
+                <tr>
+                  <th scope="row">BMP Email: </th>
+                  <td>{emp.bmpEmail}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Personal Email: </th>
+                  <td>{emp.bmpPerEmail}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Current Address: </th>
+                  <td>{emp.currAddress}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Permanent Address: </th>
+                  <td>{emp.perAddress}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Blood Group: </th>
+                  <td>{emp.blood}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Emergancy Contact: </th>
+                  <td>{emp.empAltMobile}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Relation: </th>
+                  <td>{emp.empRef}</td>
+                </tr>
               </tbody>
             </table>
             <div className="text-center">

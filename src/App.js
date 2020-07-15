@@ -10,6 +10,7 @@ import Forgot from "./Components/LoginPage/ForgotPassword";
 import EnterMobile from "./Components/LoginPage/EnterNumber";
 import ViewEmployees from "./Components/Employee/ViewEmployees";
 import EditEmployee from "./Components/Employee/EditEmployee";
+import ViewEmployee from "./Components/Employee/ViewEmployee";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -91,6 +92,12 @@ class App extends Component {
                   logoutHandler={this.logoutHandler}
                   {...props}
                 />
+              )}
+            />
+            <Route
+              path="/view-details"
+              render={(props) => (
+                <ViewEmployee isLoggedIn={this.state.isLoggedIn} {...props} />
               )}
             />
             <Route

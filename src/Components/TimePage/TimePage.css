@@ -3,8 +3,7 @@
 }
 .todayDate {
   float: right;
-  border-bottom: 1px solid black;
-  font-weight: 400;
+  /* font-weight: 400; */
 }
 
 .helloUser {

@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 
 import "./TimePage.css";
 
-import FormatTodayDate from "../../utils/dateFormater";
+// import FormatTodayDate from "../../utils/dateFormater";
 // import To12 from "../../utils/24to12";
 
 class TimePage extends Component {
@@ -219,7 +219,6 @@ class TimePage extends Component {
 
     if (remainTimeStamp <= 0) {
       this.setState({
-        canBreak: false,
         printRemainingHours: 0,
         printRemainingMinutes: 0,
         printRemainingSeconds: 0,
@@ -279,6 +278,14 @@ class TimePage extends Component {
     clearInterval(this.timing);
     const currentTime = new Date().getTime();
     localStorage.setItem("breakEndTime", currentTime);
+    const remainTimeStamp = parseInt(
+      localStorage.getItem("remainingTimeStamp")
+    );
+    if (remainTimeStamp <= 0) {
+      this.setState({
+        canBreak: false,
+      });
+    }
     this.setState({ printHours: 0, printMinutes: 0, printSeconds: 0 });
 
     const d = new Date();
@@ -479,7 +486,16 @@ class TimePage extends Component {
 
     return (
       <div className="timePageMain">
-        <p className="todayDate">Date : {FormatTodayDate()}</p>
+        {/* <p className="todayDate">Date : {FormatTodayDate()}</p> */}
+        <button
+          className="btn btn-primary todayDate"
+          onClick={() => {
+            this.props.history.push("/view-details");
+          }}
+        >
+          My Details
+        </button>
+
         <button
           className="btn btn-danger "
           data-toggle="modal"
