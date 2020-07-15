@@ -22,6 +22,7 @@ class LoginPage extends Component {
         sessionStorage.setItem("empName", userName);
         localStorage.setItem("isEnterBtn", true);
         localStorage.setItem("isBreakStartBtn", true);
+        localStorage.setItem("remainingTimeStamp", 7200000);
 
         const remainingMilliseconds = 60 * 60 * 15000;
         // const remainingMilliseconds = 60 * 1000;

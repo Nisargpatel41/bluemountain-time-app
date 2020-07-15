@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import "./TimePage.css";
 
 import FormatTodayDate from "../../utils/dateFormater";
-import To12 from "../../utils/24to12";
+// import To12 from "../../utils/24to12";
 
 class TimePage extends Component {
   state = {
@@ -16,14 +16,50 @@ class TimePage extends Component {
     currentTime: new Date().toLocaleTimeString(),
     isEnterBtn: true,
     isStartBreak: true,
+    canBreak: true,
     printHours: 0,
     printMinutes: 0,
     printSeconds: 0,
+
+    printRemainingHours: 0,
+    printRemainingMinutes: 0,
+    printRemainingSeconds: 0,
   };
 
   // schedule.scheduleJob('0 0 * * *', () => {
 
   //  })
+
+  componentDidMount() {
+    const remainTimeStamp = parseInt(
+      localStorage.getItem("remainingTimeStamp")
+    );
+    let printRemainingHours = Math.floor(
+      (remainTimeStamp % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    let printRemainingMinutes = Math.floor(
+      (remainTimeStamp % (1000 * 60 * 60)) / (1000 * 60)
+    );
+    let printRemainingSeconds = Math.floor(
+      (remainTimeStamp % (1000 * 60)) / 1000
+    );
+
+    this.setState({
+      printRemainingHours,
+      printRemainingMinutes,
+      printRemainingSeconds,
+    });
+
+    if (remainTimeStamp <= 0) {
+      this.setState({
+        canBreak: false,
+        printRemainingHours: 0,
+        printRemainingMinutes: 0,
+        printRemainingSeconds: 0,
+      });
+      localStorage.setItem("remainingTimeStamp", 0);
+    }
+  }
 
   openModal() {
     return (
@@ -141,34 +177,62 @@ class TimePage extends Component {
     this.setState({ isStartBreak: false });
     // console.log("To Time: ", e.target.elements.toTime.value);
 
-    const d = new Date().toLocaleDateString();
+    const d = new Date();
 
-    const startTimeTemp = new Date().toLocaleTimeString().split(":");
-
-    const startHours = startTimeTemp[0];
-
-    const startMinutes = startTimeTemp[1];
-
-    const startTimeAP = startTimeTemp[2].split(" ")[1];
-
-    const startTime = `${startHours} : ${startMinutes} ${startTimeAP}`;
+    const todayDate = d.toLocaleDateString();
+    const startTime = d.toLocaleTimeString();
+    const startTimeStamp = d.getTime();
+    // console.log(startTime);
 
     const endTimeValue = e.target.elements.toTime.value;
-    const endTimeTemp = e.target.elements.toTime.value.split(":");
-    // e.target.elements.toTime.value = "";
-    const endHours = parseInt(endTimeTemp[0]);
+    const breakEndTimeString = new Date(`${todayDate} ${endTimeValue}`);
 
-    const endMinutes = parseInt(endTimeTemp[1]);
+    const breakEndTime = breakEndTimeString.getTime();
+    const endTime = breakEndTimeString.toLocaleTimeString();
+    const endTimeStamp = breakEndTimeString.getTime();
+    // console.log(endTime);
 
-    const endTime = To12(endHours, endMinutes);
+    const totalBreakTime = endTimeStamp - startTimeStamp;
+    const remainingTimeStamp = parseInt(
+      localStorage.getItem("remainingTimeStamp")
+    );
+    // const actualRemainingTime =
+    const remainTimeStamp = remainingTimeStamp - totalBreakTime;
 
-    const breakEndTime = new Date(`${d} ${endTimeValue}`).getTime();
+    localStorage.setItem("remainingTimeStamp", remainTimeStamp);
+
+    let printRemainingHours = Math.floor(
+      (remainTimeStamp % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    let printRemainingMinutes = Math.floor(
+      (remainTimeStamp % (1000 * 60 * 60)) / (1000 * 60)
+    );
+    let printRemainingSeconds = Math.floor(
+      (remainTimeStamp % (1000 * 60)) / 1000
+    );
+
+    this.setState({
+      printRemainingHours,
+      printRemainingMinutes,
+      printRemainingSeconds,
+    });
+
+    if (remainTimeStamp <= 0) {
+      this.setState({
+        canBreak: false,
+        printRemainingHours: 0,
+        printRemainingMinutes: 0,
+        printRemainingSeconds: 0,
+      });
+      localStorage.setItem("remainingTimeStamp", 0);
+    }
+
     localStorage.setItem("breakEndTime", breakEndTime);
     this.timeCountDown();
 
     axios
       .put("https://bluemountain-api.herokuapp.com/api/time/start-break", {
-        date: d,
+        date: todayDate,
         startTime: startTime,
         endTime: endTime,
         empName: this.state.empName,
@@ -217,21 +281,14 @@ class TimePage extends Component {
     localStorage.setItem("breakEndTime", currentTime);
     this.setState({ printHours: 0, printMinutes: 0, printSeconds: 0 });
 
-    const d = new Date().toLocaleDateString();
+    const d = new Date();
 
-    const cameTimeTemp = new Date().toLocaleTimeString().split(":");
-
-    const cameHours = cameTimeTemp[0];
-
-    const cameMinutes = cameTimeTemp[1];
-
-    const cameTimeAP = cameTimeTemp[2].split(" ")[1];
-
-    const cameTime = `${cameHours} : ${cameMinutes} ${cameTimeAP}`;
+    const todayDate = d.toLocaleDateString();
+    const cameTime = d.toLocaleTimeString();
 
     axios
       .put("https://bluemountain-api.herokuapp.com/api/time/came-time", {
-        date: d,
+        date: todayDate,
         cameTime: cameTime,
         empName: this.state.empName,
       })
@@ -284,7 +341,11 @@ class TimePage extends Component {
     };
 
     const breakButtons = () => {
-      if (this.state.isStartBreak && isBreakStartBtn === "true") {
+      if (
+        this.state.isStartBreak &&
+        isBreakStartBtn === "true" &&
+        this.state.canBreak
+      ) {
         return (
           <button
             type="submit"
@@ -295,7 +356,7 @@ class TimePage extends Component {
             Start Break
           </button>
         );
-      } else {
+      } else if (this.state.canBreak) {
         return (
           <button
             type="submit"
@@ -306,7 +367,7 @@ class TimePage extends Component {
             End Break
           </button>
         );
-      }
+      } else return <h5 style={{ color: "red" }}>Break Limit is Over.</h5>;
     };
 
     const dateInputRender = () => {
@@ -386,23 +447,29 @@ class TimePage extends Component {
                   </div>
                 </div>
 
-                {/* <div>
+                <div>
                   <h4 className="remainTime">Remaining Time</h4>
                   <div id="clockdiv">
                     <div>
-                      <span className="hours">02</span>
+                      <span className="hours">
+                        {this.state.printRemainingHours}
+                      </span>
                       <div className="smalltext">Hours</div>
                     </div>
                     <div>
-                      <span className="minutes">30</span>
+                      <span className="minutes">
+                        {this.state.printRemainingMinutes}
+                      </span>
                       <div className="smalltext">Minutes</div>
                     </div>
                     <div>
-                      <span className="seconds">43</span>
+                      <span className="seconds">
+                        {this.state.printRemainingSeconds}
+                      </span>
                       <div className="smalltext">Seconds</div>
                     </div>
                   </div>
-                </div> */}
+                </div>
               </div>
             </div>
           </React.Fragment>
