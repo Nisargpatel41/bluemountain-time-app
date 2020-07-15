@@ -4,10 +4,12 @@ import { Redirect, Link } from "react-router-dom";
 
 class ViewEmployee extends Component {
   state = { employee: {}, empName: sessionStorage.getItem("empName") };
-  //   https://bluemountain-api.herokuapp.com
+  //
   componentDidMount() {
     axios
-      .get(`http://localhost:5000/api/employee/byName/${this.state.empName}`)
+      .get(
+        `https://bluemountain-api.herokuapp.com/api/employee/byName/${this.state.empName}`
+      )
       .then(({ data }) => {
         this.setState({ employee: data });
       })

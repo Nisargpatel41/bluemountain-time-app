@@ -44,9 +44,9 @@ class AddEmployee extends Component {
     const blood = e.target.elements.blood.value;
     e.target.elements.blood.value = "";
 
-    // https://bluemountain-api.herokuapp.com
+    //
     axios
-      .post("http://localhost:5000/api/employee/add", {
+      .post("https://bluemountain-api.herokuapp.com/api/employee/add", {
         userName: empName,
         password: empPassword,
         mobileNo: empMobile,
