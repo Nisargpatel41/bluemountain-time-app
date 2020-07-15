@@ -100,6 +100,15 @@ class EditEmployee extends Component {
               value={submitBtnValue}
               disabled={isSending}
             />
+            <button
+              type="button"
+              className="btn btn-secondary ml-4"
+              onClick={() => {
+                this.props.history.push("/view-employees");
+              }}
+            >
+              Cancel
+            </button>
           </form>
         </div>
       </React.Fragment>

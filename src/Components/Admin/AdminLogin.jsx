@@ -3,10 +3,12 @@ import { NavLink } from "react-router-dom";
 import axios from "axios";
 
 class AdminLogin extends Component {
-  state = { errorMessage: false };
+  state = { errorMessage: false, isSending: false };
 
   submitForm = async (e) => {
     e.preventDefault();
+    this.setState({ isSending: true });
+
     const userName = e.target.elements.adminName.value;
     const password = e.target.elements.adminPassword.value;
     axios
@@ -20,7 +22,7 @@ class AdminLogin extends Component {
       })
       .catch((error) => {
         if (!error.response.data.resBoolean) {
-          this.setState({ errorMessage: true });
+          this.setState({ errorMessage: true, isSending: false });
         }
       });
 
@@ -28,6 +30,9 @@ class AdminLogin extends Component {
   };
 
   render() {
+    const { isSending } = this.state;
+    const submitBtnValue = isSending ? "Logging You In..." : "Login";
+
     return (
       <React.Fragment>
         <div>
@@ -75,9 +80,12 @@ class AdminLogin extends Component {
                   />
                 </div>
                 <div className="form-group pt-3 loginButtonDiv">
-                  <button type="submit" className="btn btn-primary">
-                    Login
-                  </button>
+                  <input
+                    type="submit"
+                    className="btn btn-primary"
+                    value={submitBtnValue}
+                    disabled={isSending}
+                  />
                 </div>
               </form>
             </div>

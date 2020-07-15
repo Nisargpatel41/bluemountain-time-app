@@ -8,21 +8,24 @@ class Admin extends Component {
   state = {
     notFound: true,
     isSearched: false,
+    isSending: false,
   };
 
   submitForm = (e) => {
     e.preventDefault();
     // const d = new Date(e.currentTarget.elements.dates.value);
+    this.setState({ isSending: true });
+
     axios
       .post("https://bluemountain-api.herokuapp.com/api/admin/search-record", {
         // date: d.toLocaleDateString(),
         date: e.currentTarget.elements.dates.value,
       })
       .then(({ data }) => {
-        this.setState({ isSearched: true, notFound: false });
+        this.setState({ isSearched: true, notFound: false, isSending: false });
       })
       .catch((err) => {
-        this.setState({ isSearched: true, notFound: true });
+        this.setState({ isSearched: true, notFound: true, isSending: false });
       });
   };
 
@@ -33,6 +36,9 @@ class Admin extends Component {
   };
 
   render() {
+    const { isSending } = this.state;
+    const submitBtnValue = isSending ? "Searching..." : "Search";
+
     const isAdmin = localStorage.getItem("isAdmin");
 
     if (isAdmin === "false" || isAdmin === null) {
@@ -93,10 +99,12 @@ class Admin extends Component {
               required
             />
           </div>
-
-          <button type="submit" className="btn btn-primary">
-            Search
-          </button>
+          <input
+            type="submit"
+            className="btn btn-primary"
+            value={submitBtnValue}
+            disabled={isSending}
+          />
         </form>
 
         {this.state.isSearched && lastPart()}

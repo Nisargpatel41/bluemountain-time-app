@@ -2,10 +2,12 @@ import React, { Component } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 class ForgotPassword extends Component {
-  state = { errorMessage: false };
+  state = { errorMessage: false, isSending: false };
 
   submitForm = async (e) => {
     e.preventDefault();
+    this.setState({ isSending: true });
+
     const otpNumber = e.target.elements.otpNumber.value;
     const newPassword = e.target.elements.newPassword.value;
 
@@ -21,13 +23,18 @@ class ForgotPassword extends Component {
       })
       .catch((error) => {
         if (!error.response.data.resBoolean) {
-          this.setState({ errorMessage: true });
+          this.setState({ errorMessage: true, isSending: false });
         }
       });
 
     // console.log(result);
   };
   render() {
+    const { isSending } = this.state;
+    const submitBtnValue = isSending
+      ? "Updating Password..."
+      : "Update Password";
+
     return (
       <React.Fragment>
         <div
@@ -65,9 +72,12 @@ class ForgotPassword extends Component {
                 />
               </div>
               <div className="form-group pt-3 loginButtonDiv">
-                <button type="submit" className="btn btn-primary">
-                  Update Password
-                </button>
+                <input
+                  type="submit"
+                  className="btn btn-primary"
+                  value={submitBtnValue}
+                  disabled={isSending}
+                />
                 <button
                   type="button"
                   className="btn btn-secondary ml-4"

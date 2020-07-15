@@ -4,10 +4,12 @@ import axios from "axios";
 import "./LoginPage.css";
 
 class LoginPage extends Component {
-  state = { errorMessage: false };
+  state = { errorMessage: false, isSending: false };
 
   submitForm = async (e) => {
     e.preventDefault();
+    this.setState({ isSending: true });
+
     const userName = e.target.elements.adminName.value;
     const password = e.target.elements.adminPassword.value;
 
@@ -21,7 +23,7 @@ class LoginPage extends Component {
         localStorage.setItem("isEnterBtn", true);
         localStorage.setItem("isBreakStartBtn", true);
 
-        const remainingMilliseconds = 60 * 60 * 2000;
+        const remainingMilliseconds = 60 * 60 * 15000;
         // const remainingMilliseconds = 60 * 1000;
 
         const expiryDate = new Date(
@@ -35,7 +37,7 @@ class LoginPage extends Component {
       })
       .catch((error) => {
         if (!error.response.data.resBoolean) {
-          this.setState({ errorMessage: true });
+          this.setState({ errorMessage: true, isSending: false });
         }
       });
   };
@@ -54,6 +56,9 @@ class LoginPage extends Component {
   };
 
   render() {
+    const { isSending } = this.state;
+    const submitBtnValue = isSending ? "Logging You In..." : "Login";
+
     return (
       <React.Fragment>
         <div className="link">
@@ -102,9 +107,15 @@ class LoginPage extends Component {
                 />
               </div>
               <div className="form-group pt-3 loginButtonDiv">
-                <button type="submit" className="btn btn-primary">
+                {/* <button type="submit" className="btn btn-primary">
                   Login
-                </button>
+                </button> */}
+                <input
+                  type="submit"
+                  className="btn btn-primary"
+                  value={submitBtnValue}
+                  disabled={isSending}
+                />
                 <p className="forgotPassword" onClick={this.forgotPassword}>
                   Forgot Password?
                 </p>
