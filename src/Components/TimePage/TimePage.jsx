@@ -333,7 +333,7 @@ class TimePage extends Component {
       if (this.state.isEnterBtn && isEnterBtn === "true") {
         return (
           <button className="btn btn-success" onClick={this.enterTime}>
-            Enter
+            Login
           </button>
         );
       } else if (!this.state.isStartBreak || isBreakStartBtn === "false") {
@@ -341,7 +341,7 @@ class TimePage extends Component {
       } else {
         return (
           <button className="btn btn-danger" onClick={this.exitTime}>
-            Exit
+            Logout
           </button>
         );
       }

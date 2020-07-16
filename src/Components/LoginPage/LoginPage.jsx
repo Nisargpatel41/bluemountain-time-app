@@ -58,7 +58,7 @@ class LoginPage extends Component {
 
   render() {
     const { isSending } = this.state;
-    const submitBtnValue = isSending ? "Logging You In..." : "Login";
+    const submitBtnValue = isSending ? "Signing You In..." : "Sign In";
 
     return (
       <React.Fragment>

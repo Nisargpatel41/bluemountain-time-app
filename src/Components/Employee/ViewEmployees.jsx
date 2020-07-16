@@ -51,8 +51,8 @@ class ViewEmployees extends Component {
           <div className="card-header">BMP Employee {countNum}</div>
           <div className="card-body p-1">
             <table
-              className="table table-bordered"
-              style={{ overflowX: "scroll" }}
+              className="table-responsive-sm table table-bordered tableStyle"
+              // style={{ overflowX: "scroll" }}
             >
               <tbody>
                 <tr>

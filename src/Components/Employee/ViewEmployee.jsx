@@ -38,8 +38,8 @@ class ViewEmployee extends Component {
           <div className="card-header">Details</div>
           <div className="card-body p-1">
             <table
-              className="table table-bordered"
-              style={{ overflowX: "scroll" }}
+              className="table-responsive-sm table table-bordered tableStyle"
+              // style={{ overflowX: "scroll" }}
             >
               <tbody>
                 <tr>
