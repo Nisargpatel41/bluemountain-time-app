@@ -59,6 +59,7 @@ class ForgotPassword extends Component {
                   className="form-control"
                   id="otpNumber"
                   placeholder="Enter OTP"
+                  autocomplete="off"
                   autoFocus
                 />
               </div>

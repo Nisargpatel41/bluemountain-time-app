@@ -59,6 +59,7 @@ class EnterNumber extends Component {
                   className="form-control"
                   id="userName"
                   placeholder="Enter Your User Name"
+                  autocomplete="off"
                   autoFocus
                 />
               </div>
@@ -71,6 +72,7 @@ class EnterNumber extends Component {
                   id="mobileNumber"
                   placeholder="Enter Mobile Number"
                   inputMode="tel"
+                  autocomplete="off"
                 />
               </div>
 
