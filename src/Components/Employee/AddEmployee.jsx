@@ -14,6 +14,9 @@ class AddEmployee extends Component {
     e.preventDefault();
     this.setState({ isSending: true });
 
+    const userName = e.target.elements.userName.value;
+    e.target.elements.userName.value = "";
+
     const empName = e.target.elements.empName.value;
     e.target.elements.empName.value = "";
 
@@ -47,7 +50,8 @@ class AddEmployee extends Component {
     //
     axios
       .post("https://bluemountain-api.herokuapp.com/api/employee/add", {
-        userName: empName,
+        userName: userName,
+        empName: empName,
         password: empPassword,
         mobileNo: empMobile,
         bmpEmail: empEmail,
@@ -90,12 +94,12 @@ class AddEmployee extends Component {
           <Hr />
           <form onSubmit={this.submitForm}>
             <div className="form-group pt-3">
-              <label htmlFor="exampleInputUserName">Enter Name: </label>
+              <label htmlFor="exampleInputUserName">Enter User Name: </label>
               <input
                 type="text"
                 className="form-control"
-                id="empName"
-                name="empName"
+                id="userName"
+                name="userName"
                 required
               />
             </div>
@@ -109,7 +113,18 @@ class AddEmployee extends Component {
                 required
               />
             </div>
-
+            <div className="form-group ">
+              <label htmlFor="exampleInputUserName">
+                Enter Employee Name:{" "}
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                id="empName"
+                name="empName"
+                required
+              />
+            </div>
             <div className="form-group">
               <label htmlFor="exampleInputMobileNo">Enter Mobile Number:</label>
               <input

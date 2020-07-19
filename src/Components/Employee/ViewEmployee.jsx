@@ -43,8 +43,12 @@ class ViewEmployee extends Component {
             >
               <tbody>
                 <tr>
-                  <th scope="row">Employee Name: </th>
+                  <th scope="row">User Name: </th>
                   <td>{employee.userName}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Employee Name: </th>
+                  <td>{employee.empName}</td>
                 </tr>
                 <tr>
                   <th scope="row">Mobile No: </th>

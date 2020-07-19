@@ -9,6 +9,7 @@ class EditEmployee extends Component {
   state = {
     employee: {
       userName: "",
+      empName: "",
       mobileNo: "",
       empEmail: "",
       empperEmail: "",
@@ -28,6 +29,7 @@ class EditEmployee extends Component {
       .then(({ data }) => {
         const employee = {
           userName: data.userName,
+          empName: data.empName,
           mobileNo: data.mobileNo,
           empEmail: data.bmpEmail,
           empperEmail: data.bmpPerEmail,
@@ -86,7 +88,7 @@ class EditEmployee extends Component {
           <Hr />
           <form onSubmit={this.submitForm}>
             <div className="form-group pt-3">
-              <label htmlFor="exampleInputUserName">Employee Name: </label>
+              <label htmlFor="exampleInputUserName">User Name: </label>
               <input
                 type="text"
                 className="form-control"
@@ -94,6 +96,18 @@ class EditEmployee extends Component {
                 name="userName"
                 onChange={this.handleChange}
                 value={employee.userName}
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="exampleInputUserName">Employee Name: </label>
+              <input
+                type="text"
+                className="form-control"
+                id="empName"
+                name="empName"
+                onChange={this.handleChange}
+                value={employee.empName}
               />
             </div>
 
